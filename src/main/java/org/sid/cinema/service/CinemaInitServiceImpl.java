@@ -112,7 +112,7 @@ public class CinemaInitServiceImpl implements ICinemaInitService {
 		DateFormat dateFormat =new SimpleDateFormat("HH:mm");
 		Stream.of("12:00","15:00","17:00","19:00","21:00").forEach(s->{
 			Seance seance=new Seance();
-			System.out.println("im heere");
+		
 			try {
 				seance.setHeurDebut(dateFormat.parse(s));
 				seanceRepository.save(seance);

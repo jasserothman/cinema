@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.transaction.Transactional;
 import lombok.Data;
 
 @RestController
@@ -38,11 +39,12 @@ public class CinemaRestController {
 		return Files.readAllBytes(path);
 	}
 	@PostMapping("/payerTickets")
+	@Transactional
 	public List<Ticket> payerTickets(@RequestBody TicketForm ticketForm){
 		List<Ticket> listTickets=new ArrayList<>();
 		ticketForm.getTicket().forEach(idTicket->{
 			Ticket ticket= ticketRepository.findById(idTicket).get();
-			ticket.setNomClient(ticketForm.getNameClient());
+			ticket.setNomClient(ticketForm.getNomClient());
 			ticket.setReservee(true);
 			ticket.setCodePayement(ticketForm.getCodePayement());
 			ticketRepository.save(ticket);
@@ -58,7 +60,7 @@ public class CinemaRestController {
 }
 @Data
 class TicketForm{
-	private String nameClient;
+	private String nomClient;
 	private int codePayement;
 	private List<Long> ticket =new ArrayList<>();
 	

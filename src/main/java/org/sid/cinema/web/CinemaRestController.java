@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @RestController
+@Transactional
 public class CinemaRestController {
 
 	@Autowired
@@ -39,10 +42,11 @@ public class CinemaRestController {
 		return Files.readAllBytes(path);
 	}
 	@PostMapping("/payerTickets")
-	@Transactional
+
 	public List<Ticket> payerTickets(@RequestBody TicketForm ticketForm){
 		List<Ticket> listTickets=new ArrayList<>();
-		ticketForm.getTicket().forEach(idTicket->{
+
+		ticketForm.getTickets().forEach(idTicket->{
 			Ticket ticket= ticketRepository.findById(idTicket).get();
 			ticket.setNomClient(ticketForm.getNomClient());
 			ticket.setReservee(true);
@@ -52,16 +56,18 @@ public class CinemaRestController {
 			
 			
 		});
-		return listTickets;
+		return listTickets ;
 	}
 	
 	
 	
 }
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 class TicketForm{
 	private String nomClient;
 	private int codePayement;
-	private List<Long> ticket =new ArrayList<>();
+	private List<Long> tickets =new ArrayList<>();
 	
 }

@@ -1,5 +1,6 @@
 package org.sid.cinema.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -27,9 +28,11 @@ public class Ticket {
 	private Integer codePayement;
 	private boolean reservee;
 	@ManyToOne
+	@JsonIgnore
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Projection projection;
 	@ManyToOne
+	@JsonIgnore
 	private Place place;
 	
 }
